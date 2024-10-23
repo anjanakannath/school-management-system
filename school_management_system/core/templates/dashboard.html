@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="jumbotron text-center">
+    <h1>Welcome, {{ user.username }}</h1>
+    <p class="lead">Select your action based on your role:</p>
+    <hr class="my-4">
+
+    {% if user.is_admin %}
+        <a class="btn btn-primary btn-lg" href="{% url 'admin_dashboard' %}" role="button">Admin Dashboard</a>
+    {% elif user.is_staff %}
+        <a class="btn btn-primary btn-lg" href="{% url 'staff_dashboard' %}" role="button">Office Staff Dashboard</a>
+    {% elif user.is_librarian %}
+        <a class="btn btn-primary btn-lg" href="{% url 'librarian_dashboard' %}" role="button">Librarian Dashboard</a>
+    {% endif %}
+</div>
+{% endblock %}
