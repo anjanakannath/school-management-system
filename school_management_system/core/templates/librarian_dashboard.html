@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Librarian Dashboard{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        Librarian Actions
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Manage Library Records</h5>
+        <a href="{% url 'library_list' %}" class="btn btn-primary">View Library History</a>
+        <a href="{% url 'add_library' %}" class="btn btn-success">Add Library Record</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        Admin Actions
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Manage Students</h5>
+        <a href="{% url 'student_list' %}" class="btn btn-primary">View Students</a>
+        <a href="{% url 'add_student' %}" class="btn btn-success">Add Student</a>
+        
+        <hr>
+
+        <h5 class="card-title">Manage Staff and Librarians</h5>
+        <a href="{% url 'add_staff' %}" class="btn btn-success">Add Staff or Librarian</a>
+        <a href="{% url 'staff_list' %}" class="btn btn-primary">View Staff & Librarians</a>
+    </div>
+</div>
+{% endblock %}
