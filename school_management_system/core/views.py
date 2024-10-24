@@ -1,75 +1,115 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from .models import User
-from django.shortcuts import render, redirect, get_object_or_404
-from .models import Student, LibraryHistory, FeesHistory
-from .forms import StudentForm, LibraryHistoryForm, FeesHistoryForm
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Student, LibraryRecord, FeesRecord
+from .forms import StudentForm, LibraryRecordForm, FeesRecordForm
 
-from django.shortcuts import render
-
-def login_view(request):
-    return render(request, 'login.html')
-
-@login_required
+# Dashboard views
 def dashboard(request):
-    if request.user.is_admin():
-        return redirect('admin_dashboard')
-    elif request.user.is_staff():
-        return redirect('staff_dashboard')
-    elif request.user.is_librarian():
-        return redirect('librarian_dashboard')
-    else:
-        return redirect('login')
+    return render(request, 'dashboard.html')
 
-@login_required
 def admin_dashboard(request):
-    if not request.user.is_admin():
-        return redirect('dashboard')
-    # Admin-only functionality here
-    return render(request, 'core/admin_dashboard.html')
+    return render(request, 'admin_dashboard.html')
 
-@login_required
 def staff_dashboard(request):
-    if not request.user.is_staff():
-        return redirect('dashboard')
-    # Office Staff functionality here
-    return render(request, 'core/staff_dashboard.html')
+    return render(request, 'staff_dashboard.html')
 
-@login_required
 def librarian_dashboard(request):
-    if not request.user.is_librarian():
-        return redirect('dashboard')
-    # Librarian functionality here
-    return render(request, 'core/librarian_dashboard.html')
+    return render(request, 'librarian_dashboard.html')
 
-@login_required
+# Student views
+def view_students(request):
+    students = Student.objects.all()
+    return render(request, 'students/view_students.html', {'students': students})
+
 def add_student(request):
     if request.method == 'POST':
         form = StudentForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('student_list')
+            return redirect('view_students')
     else:
         form = StudentForm()
-    return render(request, 'core/add_student.html', {'form': form})
+    return render(request, 'students/add_student.html', {'form': form})
 
-@login_required
-def edit_student(request, pk):
-    student = get_object_or_404(Student, pk=pk)
+def edit_student(request, student_id):
+    student = get_object_or_404(Student, id=student_id)
     if request.method == 'POST':
         form = StudentForm(request.POST, instance=student)
         if form.is_valid():
             form.save()
-            return redirect('student_list')
+            return redirect('view_students')
     else:
         form = StudentForm(instance=student)
-    return render(request, 'core/edit_student.html', {'form': form})
+    return render(request, 'students/edit_student.html', {'form': form})
 
-@login_required
-def delete_student(request, pk):
-    student = get_object_or_404(Student, pk=pk)
+def delete_student(request, student_id):
+    student = get_object_or_404(Student, id=student_id)
     if request.method == 'POST':
         student.delete()
-        return redirect('student_list')
-    return render(request, 'core/confirm_delete.html', {'object': student})
+        return redirect('view_students')
+    return render(request, 'students/delete_student.html', {'student': student})
 
+# Library views
+def library_history(request):
+    records = LibraryRecord.objects.all()
+    return render(request, 'library/library_history.html', {'records': records})
+
+def add_library_record(request):
+    if request.method == 'POST':
+        form = LibraryRecordForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('library_history')
+    else:
+        form = LibraryRecordForm()
+    return render(request, 'library/add_library_record.html', {'form': form})
+
+def edit_library_record(request, record_id):
+    record = get_object_or_404(LibraryRecord, id=record_id)
+    if request.method == 'POST':
+        form = LibraryRecordForm(request.POST, instance=record)
+        if form.is_valid():
+            form.save()
+            return redirect('library_history')
+    else:
+        form = LibraryRecordForm(instance=record)
+    return render(request, 'library/edit_library_record.html', {'form': form})
+
+def delete_library_record(request, record_id):
+    record = get_object_or_404(LibraryRecord, id=record_id)
+    if request.method == 'POST':
+        record.delete()
+        return redirect('library_history')
+    return render(request, 'library/delete_library_record.html', {'record': record})
+
+# Fees views
+def fees_history(request):
+    records = FeesRecord.objects.all()
+    return render(request, 'fees/fees_history.html', {'records': records})
+
+def add_fees_record(request):
+    if request.method == 'POST':
+        form = FeesRecordForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('fees_history')
+    else:
+        form = FeesRecordForm()
+    return render(request, 'fees/add_fees_record.html', {'form': form})
+
+def edit_fees_record(request, record_id):
+    record = get_object_or_404(FeesRecord, id=record_id)
+    if request.method == 'POST':
+        form = FeesRecordForm(request.POST, instance=record)
+        if form.is_valid():
+            form.save()
+            return redirect('fees_history')
+    else:
+        form = FeesRecordForm(instance=record)
+    return render(request, 'fees/edit_fees_record.html', {'form': form})
+
+def delete_fees_record(request, record_id):
+    record = get_object_or_404(FeesRecord, id=record_id)
+    if request.method == 'POST':
+        record.delete()
+        return redirect('fees_history')
+    return render(request, 'fees/delete_fees_record.html', {'record': record})

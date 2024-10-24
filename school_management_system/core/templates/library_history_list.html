@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Library History{% endblock %}
+
+{% block content %}
+<h2>Library History</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Book</th>
+            <th>Student</th>
+            <th>Borrow Date</th>
+            <th>Return Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for record in library_records %}
+        <tr>
+            <td>{{ record.book.title }}</td>
+            <td>{{ record.student.name }}</td>
+            <td>{{ record.borrow_date }}</td>
+            <td>{{ record.return_date }}</td>
+            <td>
+                <a href="{% url 'edit_library' record.pk %}" class="btn btn-warning">Edit</a>
+                <a href="{% url 'delete_library' record.pk %}" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

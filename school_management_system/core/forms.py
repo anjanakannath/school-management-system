@@ -1,17 +1,17 @@
 from django import forms
-from .models import Student, LibraryHistory, FeesHistory
+from .models import Student, LibraryRecord, FeesRecord
 
 class StudentForm(forms.ModelForm):
     class Meta:
         model = Student
-        fields = ['name', 'class_name', 'roll_number']
+        fields = ['first_name', 'last_name', 'date_of_birth', 'enrollment_number', 'class_level', 'address', 'email', 'phone_number']
 
-class LibraryHistoryForm(forms.ModelForm):
+class LibraryRecordForm(forms.ModelForm):
     class Meta:
-        model = LibraryHistory
-        fields = ['student', 'borrowed_date', 'return_date']
+        model = LibraryRecord
+        fields = ['student', 'book_title', 'issue_date', 'return_date']
 
-class FeesHistoryForm(forms.ModelForm):
+class FeesRecordForm(forms.ModelForm):
     class Meta:
-        model = FeesHistory
-        fields = ['student', 'amount', 'payment_date', 'remarks']
+        model = FeesRecord
+        fields = ['student', 'amount_paid', 'payment_date']
