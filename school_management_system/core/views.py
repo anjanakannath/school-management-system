@@ -84,7 +84,7 @@ def delete_library_record(request, record_id):
 # Fees views
 def fees_history(request):
     records = FeesRecord.objects.all()
-    return render(request, 'fees/fees_history.html', {'records': records})
+    return render(request, 'fees/fees_history_list.html', {'records': records})
 
 def add_fees_record(request):
     if request.method == 'POST':
